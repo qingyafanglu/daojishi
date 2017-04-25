@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style type="text/css">
+ *{margin:0;padding:0;}
+ .conment{width:50%;height:50px;margin-bottom:20px;font-size:25px;background-color:yellow;display:none;}
+ #section1 .conment{display:block;}
+
+
+</style>
+<title>fullpage简单实例</title>
+</head>
+
+<body>
+
+<div id="fullpage">
+  <div class="section " id="section1">
+    <div class="conment">首页</div>
+  </div>
+  
+  <div class="section" id="section2">
+    <div class="conment">图文</div>
+  </div>
+    
+  <div class="section " id="section3">
+    <div class="conment">图表</div>
+  </div>
+  
+
+
+</div>
+<script src="js/lib/jquery.js" ></script>
+<script src="js/lib/jquery-ui.min.js"></script>
+<script src="js/lib/jquery.fullPage.js"></script>
+<script type="text/javascript">
+
+  $(function(){
+	  
+//------------主函数-----------------	  
+	  $('#fullpage').fullpage({
+		  sectionsColor:['blue','green','red'],
+		  onLeave:function(index,nextIndex,direction){
+			  $('#fullpage').find('.section').eq(index-1).trigger('onLeave');
+			  
+			  
+			  },
+		  afterLoad:function(anchorLink,index){
+			  $('#fullpage').find('.section').eq(index-1).trigger('onLoad');
+			  
+			  
+			  
+			  
+			  },
+		  
+		  
+		  
+		  
+		  });	  
+//---------------------自定义函数-------------
+    $('.section').on('onLeave',function(){
+		
+		$(this).find(".conment").trigger('onLeave');
+		
+		
+		});
+
+    $('.section').on('onLoad',function(){
+		
+		$(this).find(".conment").trigger('onLoad');
+		
+		
+		});
+    $('.conment').on('onLeave',function(){
+		
+		$(this).fadeOut();
+		return false;
+		
+		});
+
+     $('.conment').on('onLoad',function(){
+		
+		$(this).fadeIn();
+		return false;
+		});
+	  
+	  });
+
+
+
+</script>
+
+
+
+</body>
+</html>

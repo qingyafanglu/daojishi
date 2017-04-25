@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="jquery.js"></script>
+<title>test</title>
+</head>
+
+<body style="background-color:#fff;">
+
+
+<canvas id="canvas" style="border:1px solid #ccc"></canvas>
+<input type="range" id='slider' min='0' max="3" step="0.2" value="1" style="display:block;width:300px;"  />
+<script type="text/javascript">
+  var canvas=document.getElementById('canvas');
+  var context=canvas.getContext('2d');
+  var w=480;
+  var h=480;
+  canvas.width=w;
+  canvas.height=h;
+  var img=new Image();
+  var istwo=true;
+  window.onload=function(){
+	  
+	  
+	  var per=document.getElementById('slider').value;
+	
+	  img.src='lovelydog.jpg';
+	  img.onload=function(){
+		  
+		    draw(per);
+            slider.onmousemove=function(){
+			per= document.getElementById('slider').value;
+			draw(per);
+			
+			 
+			 }; 
+		  
+		  
+          };
+		  
+		  
+};
+	  
+function draw(scale){
+	var imageWidth=480*scale;
+	var imageHeight=480*scale;
+	
+	var sx=canvas.width/2-imageWidth/2;
+	var sy=canvas.height/2-imageHeight/2;
+	context.clearRect(0,0,canvas.width,canvas.height);
+	context.drawImage(img,sx,sy,imageWidth,imageHeight);
+	
+
+}
+  
+ 
+  
+  
+  
+  
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

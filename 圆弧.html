@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="jquery.js"></script>
+<title>圆弧</title>
+</head>
+
+<body>
+
+
+<canvas id="canvas"></canvas>
+
+<script type="text/javascript">
+  var canvas=document.getElementById('canvas');
+  var context=canvas.getContext('2d');
+  var w=800;
+  var h=800;
+  canvas.width=w;
+  canvas.height=h;
+  
+  window.onload=function(){
+	   context.fillStyle='#ccc';
+	   context.fillRect(0,0,w,h);
+	   context.beginPath();
+       context.moveTo(20,20);           // 创建开始点
+       context.lineTo(100,20);          // 创建水平线
+       context.arcTo(150,20,150,70,50); // 创建弧
+       context.lineTo(150,120);        // 创建垂直线
+	   context.strokeStyle='red';
+       context.stroke();
+	  
+	  
+	  
+	  };
+	  
+	  
+	  
+	  
+
+  
+  
+ 
+  
+  
+  
+  
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

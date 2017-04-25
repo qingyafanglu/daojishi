@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>星空</title>
+<script src="jquery.js"></script> 
+<style type="text/css">
+  #star{position:relative;height:800px;width:100%;}
+  
+  #button{position:absolute;left:700px;top:300px;border:1px solid #CCC;z-index:10;}
+</style>
+</head>
+
+<body>
+<div id='star'>
+<canvas id="canvas"  style="position:absolute;left:0;top:0;"></canvas>
+
+<button type="button" id="button">click me</button>
+</div>
+<script type="text/javascript">
+  var canvas=document.getElementById('canvas');
+  var context=canvas.getContext('2d');
+  var w=1200;
+  var h=800;
+  var star=document.getElementById('star');
+  canvas.width=w;
+  canvas.height=h;
+  
+  var skyColor=context.createLinearGradient(0,0,0,canvas.width);
+  skyColor.addColorStop(0.0,'black');
+  skyColor.addColorStop(1.0,'#035');
+	  
+  var skyColor2=context.createRadialGradient(w/2,h,0,w/2,h,h/2)
+  skyColor.addColorStop(0.0,'black');
+  skyColor.addColorStop(1.0,'#035');
+  context.fillStyle=skyColor;
+  context.fillRect(0,0,canvas.width,canvas.height);
+  context.fillStyle=skyColor2;
+  context.fillRect(0,0,canvas.width,canvas.height);
+  
+  var vy=10;
+  var stars=[];
+  
+  window.onload=function(){
+	 
+	  
+	  for(var i=0;i<200;i++){
+		  var x=Math.random()*canvas.width;
+		  var y=Math.random()*(canvas.height-300);
+		  var r=Math.random()*5+5;
+		  var rot=Math.random()*360;
+		  var color='#FF9800';
+		  drawStar(x,y,r,context,rot,color);
+		//收集星星的信息
+		
+		  var  star={
+			     x:x,
+				 y:y,
+				 r:r,
+				 rot:rot,
+				 color:color
+			  
+			  
+			  
+			
+			  
+			  };
+		//--------------------	  
+		stars.push(star);
+		  
+		  
+		  };
+	  drawMoon(600,200,2,30,100,context);
+	 // drawLand(context);
+	  
+ 
+    
+	
+	
+	
+	button.onclick=function(){
+		
+		var context_two=$('<canvas id="canvas_two" style="position:absolute;left:0;top:0; ">');
+		$('#star').append(context_two);
+		
+		var context2=document.getElementById('canvas_two');
+		context2.width=w;
+		context2.height=h;
+		var canvas_two=context2.getContext('2d');
+		$('#star').append(context_two);
+		
+		 setInterval(function(){
+			 
+			starRain(canvas_two);
+			
+			update();
+		  },200);
+			
+		
+	};
+	
+  };
+  
+ // ----------------星星绘制图-------------
+  function drawStar(x,y,r,ctx,rot,color){
+	  ctx.save();
+	  ctx.beginPath();
+	  ctx.translate(x,y);
+	  ctx.rotate(rot/180*Math.PI);
+	  ctx.scale(r,r);
+	  starPath(ctx,rot);
+	  ctx.fillStyle=color;
+	  ctx.fill();
+	  ctx.restore();
+	  };
+  function starPath(ctx,rot){
+	  for(var i=0;i<5;i++){
+		  
+		 ctx.lineTo(Math.cos((18+i*72-rot)/180*Math.PI),
+		  
+		       -Math.sin((18+i*72-rot)/180*Math.PI)
+		 
+		 );
+		  
+		 ctx.lineTo(Math.cos((54+i*72-rot)/180*Math.PI)*0.5,
+		  
+		       -Math.sin((54+i*72-rot)/180*Math.PI)*0.5
+		 
+		 )
+		  }
+	  
+	  
+	  
+	  };
+  
+  
+//-----------------------绘制月亮-----------
+function drawMoon(x,y,d,rot,r,ctx,color){
+	ctx.save();
+	ctx.translate(x,y);
+	ctx.scale(r,r);
+	ctx.rotate(rot/180*Math.PI);
+	moonPath(d,ctx);
+	ctx.fillStyle=color?color:'#FF9800';
+	ctx.fill();
+	ctx.restore();
+	}
+
+function moonPath(d,ctx){
+	ctx.beginPath();
+	ctx.arc(0,0,1,0.5*Math.PI,1.5*Math.PI,true);
+	ctx.moveTo(0,-1);
+	ctx.arcTo(d,0,0,1,dis(0,-1,d,0)/d);
+	ctx.closePath();
+	}
+
+
+function dis(x1,y1,x2,y2){
+	
+	return Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+	
+	
+	};  
+//------------绘制草地----------
+function drawLand(ctx){
+	ctx.save();
+	ctx.beginPath();
+	ctx,moveTo(0,600);
+	ctx.bezierCurveTo(540,400,660,600,1200,600);
+	ctx.lineTo(1200,800);
+	ctx.lineTo(0,800);
+	ctx.closePath();
+	
+	var landColor=context.createLinearGradient(0,800,0,0);
+	  landColor.addColorStop(0.0,'#030');
+	  landColor.addColorStop(1.0,'#058');
+	  ctx.fillStyle=landColor;
+	  ctx.fill();
+	  
+	  ctx.restore();
+	
+	}  
+  
+  
+ //------------------星星雨------------------
+ 
+ function starRain(ctx){
+	 ctx.clearRect(0,0,w,h);
+	 for(var i=0;i<stars.length;i++){
+		
+		drawStar(stars[i].x,stars[i].y,stars[i].r,ctx,stars[i].rot,stars[i].color); 
+		
+		 };
+	
+};
+function update(){
+	for(var j=0;j<stars.length;j++){
+		
+		stars[j].y+=vy;
+	    stars[j].rot+=j%2?10:-10;
+		
+		};
+	
+	
+	
+	
+	};  
+  
+
+
+</script>
+
+
+
+</body>
+</html>
